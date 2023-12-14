@@ -10,18 +10,21 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import app.toilets.presentation.home.HomeScreen
+import app.toilets.presentation.home.HomeViewModel
 
 @Composable
 fun AppNavigation(
     navController: NavHostController,
     startDestination: String,
+    viewModel: HomeViewModel,
     bottomBarPadding: PaddingValues
 ) {
     NavHost(
         navController = navController,
         startDestination = startDestination,
         builder = {
-            homeScreen(navController)
+            homeScreen(navController = navController, viewModel = viewModel)
             detailsScreen(navController)
         }
     )
@@ -29,6 +32,7 @@ fun AppNavigation(
 
 fun NavGraphBuilder.homeScreen(
     navController: NavController,
+    viewModel: HomeViewModel
 ) {
     composable(
         route = Navigate.Screen.Home.route
@@ -38,7 +42,9 @@ fun NavGraphBuilder.homeScreen(
         BackHandler(true) {
             activity?.finish()
         }
-
+        HomeScreen(
+            viewModel = viewModel
+        )
     }
 }
 

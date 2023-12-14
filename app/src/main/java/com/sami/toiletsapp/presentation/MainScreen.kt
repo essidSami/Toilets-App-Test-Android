@@ -9,7 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.plusAssign
-import app.toilets.compose.theme.BottomSheetShape
+import com.sami.toiletsapp.presentation.theme.BottomSheetShape
+import app.toilets.presentation.home.HomeViewModel
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
@@ -18,7 +19,7 @@ import com.sami.toiletsapp.presentation.navigation.Navigate
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
-internal fun MainScreen(onLauncherFinished: () -> Unit) {
+internal fun MainScreen(viewModel: HomeViewModel, onLauncherFinished: () -> Unit) {
     val navController = rememberNavController()
     val bottomSheetNavigator = rememberBottomSheetNavigator()
     navController.navigatorProvider += bottomSheetNavigator
@@ -40,6 +41,7 @@ internal fun MainScreen(onLauncherFinished: () -> Unit) {
             AppNavigation(
                 navController = navController,
                 startDestination = screen,
+                viewModel = viewModel,
                 bottomBarPadding = it
             )
         }

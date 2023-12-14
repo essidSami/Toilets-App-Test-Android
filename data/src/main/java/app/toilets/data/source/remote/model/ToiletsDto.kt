@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class ToiletsDto(
     @SerializedName("nhits")
-    val count: Int,
-    val parameters: ParametersDto,
-    val records: List<RecordDto>
+    val count: Int?,
+    val parameters: ParametersDto?,
+    val records: List<RecordDto>?
 )
