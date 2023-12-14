@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
         permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) {
-            viewModel.loadToilets()
+            viewModel.loadToilets(0)
         }
 
         permissionLauncher.launch(arrayOf(

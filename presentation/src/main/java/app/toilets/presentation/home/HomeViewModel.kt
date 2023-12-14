@@ -21,25 +21,25 @@ class HomeViewModel @Inject constructor(
     var state by mutableStateOf(ToiletsState())
         private set
 
-    fun loadToilets() {
+    fun loadToilets(start: Int) {
         viewModelScope.launch {
             state = state.copy(
                 isLoading = true,
                 error = null
             )
             getCurrentLocationUseCase()?.let { location ->
-                when (val result = getToiletsUseCase(dataSet = "sanisettesparis2011", start = 0, rows = 10)) {
+                when (val result = getToiletsUseCase(dataSet = "sanisettesparis2011", start = start, rows = 10)) {
                     is Resource.Success -> {
                         state = state.copy(
-                            toiletList = result.data,
+                            toiletList = state.toiletList.plus(result.data?: listOf()),
                             isLoading = false,
-                            error = null
+                            error = null,
+                            endReached = result.data?.isEmpty() == true
                         )
                     }
 
                     is Resource.Error -> {
                         state = state.copy(
-                            toiletList = null,
                             isLoading = false,
                             error = result.message
                         )

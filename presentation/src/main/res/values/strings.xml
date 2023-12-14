@@ -1,0 +1,5 @@
+<resources>
+    <string name="txt_source">Source :</string>
+    <string name="txt_address">Adresse :</string>
+    <string name="txt_borough">Arrondissement :</string>
+</resources>

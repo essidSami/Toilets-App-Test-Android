@@ -1,16 +1,9 @@
 package app.toilets.data.mapper
 
 import app.toilets.data.source.remote.model.RecordDto
-import app.toilets.data.source.remote.model.ToiletsDto
 import app.toilets.domain.model.Toilet
-import app.toilets.domain.model.ToiletList
 
-fun ToiletsDto.toToiletList() = ToiletList(
-    count = count ?: 0,
-    toilets = records?.map { it.toToilet() } ?: emptyList()
-)
-
-private fun RecordDto.toToilet() = Toilet(
+fun RecordDto.toToilet() = Toilet(
     type = fields?.type ?: "",
     status = "",
     address = fields?.adresse ?: "",
