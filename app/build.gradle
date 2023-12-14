@@ -57,7 +57,7 @@ dependencies {
 
     implementation project(":common:compose")
     implementation project(":common:resources")
-    implementation project(":utility")
+    implementation project(":domain")
 
     implementation 'androidx.core:core-splashscreen:1.0.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'

@@ -1,4 +1,4 @@
-package app.toilets.utility.inject
+package app.toilets.domain.util
 
 import javax.inject.Qualifier
 

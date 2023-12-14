@@ -1,9 +1,9 @@
 package com.sami.toiletsapp.di
 
-import app.toilets.utility.inject.DefaultDispatcher
-import app.toilets.utility.inject.IoDispatcher
-import app.toilets.utility.inject.MainDispatcher
-import app.toilets.utility.inject.MainImmediateDispatcher
+import app.toilets.domain.util.DefaultDispatcher
+import app.toilets.domain.util.IoDispatcher
+import app.toilets.domain.util.MainDispatcher
+import app.toilets.domain.util.MainImmediateDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
