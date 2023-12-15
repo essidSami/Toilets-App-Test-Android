@@ -1,5 +1,7 @@
 <resources>
-    <string name="txt_source">Source :</string>
+    <string name="txt_accessible">Accessible</string>
+    <string name="txt_not_accessible">Not accessible</string>
     <string name="txt_address">Adresse :</string>
-    <string name="txt_borough">Arrondissement :</string>
+    <string name="txt_km">%1$s KM</string>
+    <string name="txt_meter">%1$s m</string>
 </resources>

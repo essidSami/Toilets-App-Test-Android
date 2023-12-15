@@ -1,5 +1,6 @@
 package app.toilets.data.repository
 
+import android.location.Location
 import app.toilets.data.mapper.toToilet
 import app.toilets.data.source.remote.ToiletsApi
 import app.toilets.domain.model.Toilet
@@ -13,7 +14,8 @@ class ToiletRepositoryImpl @Inject constructor(
     override suspend fun getToilets(
         dataSet: String,
         start: Int,
-        rows: Int
+        rows: Int,
+        currentLocation: Location
     ): Resource<List<Toilet>> {
         return try {
             Resource.Success(
@@ -21,7 +23,7 @@ class ToiletRepositoryImpl @Inject constructor(
                     dataSet = dataSet,
                     start = start,
                     rows = rows
-                ).records?.map { it.toToilet() }
+                ).records?.map { it.toToilet(currentLocation = currentLocation) }
             )
         } catch (e: Exception) {
             e.printStackTrace()

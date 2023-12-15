@@ -28,10 +28,15 @@ class HomeViewModel @Inject constructor(
                 error = null
             )
             getCurrentLocationUseCase()?.let { location ->
-                when (val result = getToiletsUseCase(dataSet = "sanisettesparis2011", start = start, rows = 10)) {
+                when (val result = getToiletsUseCase(
+                    dataSet = "sanisettesparis2011",
+                    start = start,
+                    rows = 10,
+                    currentLocation = location
+                )) {
                     is Resource.Success -> {
                         state = state.copy(
-                            toiletList = state.toiletList.plus(result.data?: listOf()),
+                            toiletList = state.toiletList.plus(result.data ?: listOf()),
                             isLoading = false,
                             error = null,
                             endReached = result.data?.isEmpty() == true

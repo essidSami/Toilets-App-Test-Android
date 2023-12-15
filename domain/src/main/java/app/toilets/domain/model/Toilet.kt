@@ -6,13 +6,14 @@ data class Toilet(
     val address: String,
     val arrondissement: String,
     val horaire: String,
-    val accesPmr: String,
-    val relaisBebe: String,
+    val accesPmr: Boolean = false,
+    val relaisBebe: Boolean = false,
     val urlFicheEquipement: String,
     val geoShape: Pair<Double, Double>?,
     val geometry: Pair<Double, Double>?,
     val gestionnaire: String,
     val source: String,
     val complementAdresse: String,
+    val distance: Float
 
 )
