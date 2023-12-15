@@ -2,6 +2,7 @@ package app.toilets.presentation.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -49,8 +49,9 @@ fun ToiletCard(toilet: Toilet, modifier: Modifier = Modifier) {
                 Text(
                     text = gestionnaire,
                     style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Start,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
 
                 Row(
@@ -67,7 +68,6 @@ fun ToiletCard(toilet: Toilet, modifier: Modifier = Modifier) {
                     Text(
                         text = "$address, $arrondissement",
                         style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Start,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -90,8 +90,7 @@ fun ToiletCard(toilet: Toilet, modifier: Modifier = Modifier) {
                     Text(
                         text = horaire,
                         style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Medium,
-                        textAlign = TextAlign.Center,
+                        textAlign = TextAlign.Start,
                         modifier = modifier.padding(start = 12.dp)
                     )
                 }
@@ -132,17 +131,21 @@ fun ToiletCard(toilet: Toilet, modifier: Modifier = Modifier) {
                     )
                     Spacer(modifier = modifier.width(6.dp))
                     Box(
-                        modifier = modifier.background(
-                            color = colorResource(id = R.color.caribbean_green),
-                            shape = RoundedCornerShape(15.dp)
-                        )
+                        modifier = modifier
+                            .background(
+                                color = Color.White,
+                                shape = RoundedCornerShape(15.dp)
+                            )
+                            .border(
+                                width = 1.dp,
+                                color = Color.Black,
+                                shape = RoundedCornerShape(15.dp)
+                            )
                     ) {
                         Text(
                             text = distance.calculateDistance(),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = Color.White,
-                            fontWeight = FontWeight.Medium,
-                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.titleSmall,
+                            textAlign = TextAlign.Start,
                             modifier = modifier.padding(vertical = 6.dp, horizontal = 12.dp)
                         )
                     }

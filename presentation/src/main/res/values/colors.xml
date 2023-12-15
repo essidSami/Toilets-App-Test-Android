@@ -2,4 +2,5 @@
 <resources>
     <color name="caribbean_green">#FF00D478</color>
     <color name="persimmon">#FFFF5858</color>
+    <color name="black">#FF000000</color>
 </resources>

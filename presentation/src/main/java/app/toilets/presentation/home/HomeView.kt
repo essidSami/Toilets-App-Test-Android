@@ -9,10 +9,15 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import app.toilets.presentation.R
 
 @Composable
 fun HomeScreen(
@@ -22,17 +27,47 @@ fun HomeScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         val state = viewModel.state
+        val displayMode = remember { mutableStateOf(0) }
         Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
         ) {
+            SegmentedControl(
+                items = listOf(
+                    Pair(
+                        stringResource(id = R.string.txt_list),
+                        painterResource(id = R.drawable.img_list)
+                    ),
+                    Pair(
+                        stringResource(id = R.string.txt_map),
+                        painterResource(id = R.drawable.img_map)
+                    )
+                )
+            ) {
+                displayMode.value = it
+            }
             state.toiletList.let { toilets ->
-                LazyColumn(modifier = Modifier.fillMaxHeight()) {
-                    itemsIndexed(toilets) { index, item ->
-                        if (index >= toilets.size - 1 && !state.endReached && !state.isLoading) {
-                            viewModel.loadToilets(toilets.size + 1)
+                when (displayMode.value) {
+                    0 -> {
+                        LazyColumn(modifier = Modifier.fillMaxHeight()) {
+                            itemsIndexed(toilets) { index, item ->
+                                if (index >= toilets.size - 1 && !state.endReached && !state.isLoading) {
+                                    viewModel.loadToilets(toilets.size + 1)
+                                }
+                                ToiletCard(item)
+                            }
                         }
-                        ToiletCard(item)
+                    }
+
+                    else -> {
+                        state.currentLocation?.let { latLng ->
+                            ToiletMap(
+                                modifier = Modifier.weight(1F),
+                                location = latLng,
+                                toiletList = toilets
+                            )
+                        }
                     }
                 }
             }

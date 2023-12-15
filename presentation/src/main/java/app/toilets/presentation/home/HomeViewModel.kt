@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import app.toilets.domain.usecases.GetCurrentLocationUseCase
 import app.toilets.domain.usecases.GetToiletsUseCase
 import app.toilets.domain.util.Resource
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,7 +40,8 @@ class HomeViewModel @Inject constructor(
                             toiletList = state.toiletList.plus(result.data ?: listOf()),
                             isLoading = false,
                             error = null,
-                            endReached = result.data?.isEmpty() == true
+                            endReached = result.data?.isEmpty() == true,
+                            currentLocation = LatLng(location.latitude, location.longitude)
                         )
                     }
 
