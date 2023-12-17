@@ -14,24 +14,48 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import app.toilets.domain.model.Toilet
 import app.toilets.presentation.R
+import app.toilets.presentation.util.toiletList
 
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
+    onClickItem: (Toilet) -> Unit
+) {
+    val state = viewModel.state
+    HomeViewContent(
+        state = state,
+        displayMode = viewModel.displayMode,
+        onClickItem = onClickItem,
+        onChangeMode = { viewModel.displayMode = it },
+        onLoadMore = { start, geoFilter ->
+            viewModel.loadToilets(
+                start = start,
+                geoFilter = geoFilter
+            )
+        }
+    )
+}
+
+@Composable
+fun HomeViewContent(
+    state: ToiletsState,
+    displayMode: Int,
     onClickItem: (Toilet) -> Unit,
+    onChangeMode: (Int) -> Unit,
+    onLoadMore: (Int, String?) -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
-        val state = viewModel.state
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ) {
             SegmentedControl(
-                defaultSelectedItemIndex = viewModel.displayMode,
+                defaultSelectedItemIndex = displayMode,
                 items = listOf(
                     Pair(
                         stringResource(id = R.string.txt_list),
@@ -42,16 +66,14 @@ fun HomeScreen(
                         painterResource(id = R.drawable.img_map)
                     )
                 )
-            ) {
-                viewModel.displayMode = it
-            }
+            ) { onChangeMode(it) }
             state.toiletList.let { toilets ->
-                when (viewModel.displayMode) {
+                when (displayMode) {
                     0 -> {
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
                             itemsIndexed(toilets) { index, item ->
                                 if (index >= toilets.size - 1 && !state.endReached && !state.isLoading) {
-                                    viewModel.loadToilets(start = toilets.size + 1)
+                                    onLoadMore(toilets.size + 1, null)
                                 }
                                 ToiletCard(item, onClickItem = onClickItem)
                             }
@@ -62,13 +84,10 @@ fun HomeScreen(
                         state.currentLocation?.let { latLng ->
                             ToiletMap(
                                 modifier = Modifier.weight(1F),
-                                location = latLng,
+                                currentLocation = latLng,
                                 toiletList = toilets
                             ) {
-                                viewModel.loadToilets(
-                                    start = toilets.size + 1,
-                                    geoFilter = it
-                                )
+                                onLoadMore(toilets.size + 1, it)
                             }
                         }
                     }
@@ -90,4 +109,15 @@ fun HomeScreen(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun PreviewToiletsList() {
+    HomeViewContent(
+        state = ToiletsState(toiletList),
+        displayMode = 0,
+        onClickItem = {},
+        onChangeMode = {},
+        onLoadMore = { _, _ -> })
 }

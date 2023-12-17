@@ -10,6 +10,4 @@ interface ToiletRepository {
         currentLocation: Location,
         geoFilter: String?
     ): Resource<List<Toilet>>
-
-//    suspend fun getToiletInfo(recordId: String): Resource<Toilet>
 }

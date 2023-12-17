@@ -46,7 +46,7 @@ class HomeViewModel @Inject constructor(
                         )
                     }
 
-                    is Resource.Error -> {
+                    else -> {
                         state = state.copy(
                             isLoading = false,
                             error = result.message

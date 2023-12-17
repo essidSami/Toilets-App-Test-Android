@@ -22,12 +22,12 @@ import com.google.maps.android.compose.rememberMarkerState
 @Composable
 fun ToiletMap(
     modifier: Modifier,
-    location: LatLng,
+    currentLocation: LatLng,
     toiletList: List<Toilet>,
     onCameraChangePosition: (String) -> Unit
 ) {
     val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(location, 15f)
+        position = CameraPosition.fromLatLngZoom(currentLocation, 15f)
     }
     GoogleMap(
         cameraPositionState = cameraPositionState,
