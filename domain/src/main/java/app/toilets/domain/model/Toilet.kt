@@ -1,5 +1,9 @@
 package app.toilets.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Toilet(
     val type: String,
     val status: String,
@@ -15,5 +19,4 @@ data class Toilet(
     val source: String,
     val complementAdresse: String,
     val distance: Float
-
-)
+): Parcelable

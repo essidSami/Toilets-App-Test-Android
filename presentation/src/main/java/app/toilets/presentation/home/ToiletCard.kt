@@ -3,6 +3,7 @@ package app.toilets.presentation.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,24 +26,26 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import app.toilets.domain.model.Toilet
 import app.toilets.presentation.R
-import app.toilets.presentation.util.calculateDistance
 
 @Composable
-fun ToiletCard(toilet: Toilet, modifier: Modifier = Modifier) {
+fun ToiletCard(toilet: Toilet, onClickItem: (Toilet) -> Unit) {
     toilet.apply {
         Card(
             colors = CardDefaults.cardColors(containerColor = Color.White),
             shape = RoundedCornerShape(10.dp),
             elevation = CardDefaults.cardElevation(4.dp),
-            modifier = modifier.padding(16.dp)
+            modifier = Modifier
+                .padding(16.dp)
+                .clickable { onClickItem(this) }
         ) {
             Column(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
@@ -55,14 +58,14 @@ fun ToiletCard(toilet: Toilet, modifier: Modifier = Modifier) {
                 )
 
                 Row(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.img_address),
                         contentDescription = "time",
-                        modifier = modifier.size(18.dp)
+                        modifier = Modifier.size(18.dp)
                     )
 
                     Text(
@@ -71,32 +74,32 @@ fun ToiletCard(toilet: Toilet, modifier: Modifier = Modifier) {
                         textAlign = TextAlign.Start,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = modifier
+                        modifier = Modifier
                             .weight(1F)
                             .padding(start = 12.dp)
                     )
                 }
 
                 Row(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.img_time),
                         contentDescription = "time",
-                        modifier = modifier.size(18.dp)
+                        modifier = Modifier.size(18.dp)
                     )
                     Text(
                         text = horaire,
                         style = MaterialTheme.typography.titleSmall,
                         textAlign = TextAlign.Start,
-                        modifier = modifier.padding(start = 12.dp)
+                        modifier = Modifier.padding(start = 12.dp)
                     )
                 }
 
                 Row(
-                    modifier = modifier
+                    modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp)
                 ) {
@@ -114,7 +117,7 @@ fun ToiletCard(toilet: Toilet, modifier: Modifier = Modifier) {
                             )
                             .padding(6.dp),
                     )
-                    Spacer(modifier = modifier.width(6.dp))
+                    Spacer(modifier = Modifier.width(6.dp))
                     Image(
                         painter = painterResource(id = R.drawable.img_baby),
                         contentDescription = "baby",
@@ -129,9 +132,9 @@ fun ToiletCard(toilet: Toilet, modifier: Modifier = Modifier) {
                             )
                             .padding(6.dp),
                     )
-                    Spacer(modifier = modifier.width(6.dp))
+                    Spacer(modifier = Modifier.width(6.dp))
                     Box(
-                        modifier = modifier
+                        modifier = Modifier
                             .background(
                                 color = Color.White,
                                 shape = RoundedCornerShape(15.dp)
@@ -143,10 +146,14 @@ fun ToiletCard(toilet: Toilet, modifier: Modifier = Modifier) {
                             )
                     ) {
                         Text(
-                            text = distance.calculateDistance(),
+                            text = if (distance >= 1) {
+                                stringResource(id = R.string.txt_km).format(distance)
+                            } else {
+                                stringResource(id = R.string.txt_meter).format(distance)
+                            },
                             style = MaterialTheme.typography.titleSmall,
                             textAlign = TextAlign.Start,
-                            modifier = modifier.padding(vertical = 6.dp, horizontal = 12.dp)
+                            modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp)
                         )
                     }
                 }

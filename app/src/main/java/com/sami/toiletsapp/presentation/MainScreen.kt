@@ -1,50 +1,34 @@
 package com.sami.toiletsapp.presentation
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.plusAssign
-import com.sami.toiletsapp.presentation.theme.BottomSheetShape
 import app.toilets.presentation.home.HomeViewModel
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.ModalBottomSheetLayout
-import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.sami.toiletsapp.presentation.navigation.AppNavigation
 import com.sami.toiletsapp.presentation.navigation.Navigate
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 @Composable
 internal fun MainScreen(viewModel: HomeViewModel, onLauncherFinished: () -> Unit) {
     val navController = rememberNavController()
-    val bottomSheetNavigator = rememberBottomSheetNavigator()
-    navController.navigatorProvider += bottomSheetNavigator
+    navController.navigatorProvider
 
     val screen = Navigate.Screen.Home.route
 
-    ModalBottomSheetLayout(
-        bottomSheetNavigator = bottomSheetNavigator,
-        sheetShape = BottomSheetShape,
-        sheetBackgroundColor = Color.Transparent
-    ) {
-        Scaffold(
-            containerColor = Color.White,
-            modifier = Modifier
-                .fillMaxSize()
-                .navigationBarsPadding()
-                .statusBarsPadding()
-        ) {
-            AppNavigation(
-                navController = navController,
-                startDestination = screen,
-                viewModel = viewModel,
-                bottomBarPadding = it
-            )
-        }
+    Scaffold(
+        containerColor = Color.White,
+        modifier = Modifier.fillMaxSize()
+    ) { paddingValues: PaddingValues ->
+        AppNavigation(
+            modifier = Modifier.padding(paddingValues),
+            navController = navController,
+            startDestination = screen,
+            viewModel = viewModel
+        )
     }
     onLauncherFinished()
 }

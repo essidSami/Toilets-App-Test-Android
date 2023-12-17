@@ -9,6 +9,13 @@ interface ToiletsApi {
     suspend fun getToilets(
         @Query("dataset") dataSet: String,
         @Query("start") start: Int,
-        @Query("rows") rows: Int
+        @Query("rows") rows: Int,
+        @Query("geofilter.distance") geoFilter: String?
+    ): ToiletsDto
+
+    @GET("search")
+    suspend fun getToiletInfo(
+        @Query("dataset") dataSet: String,
+        @Query("refine.recordid") recordId: String
     ): ToiletsDto
 }

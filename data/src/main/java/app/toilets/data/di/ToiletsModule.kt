@@ -39,5 +39,8 @@ class ToiletsModule {
         locationClient: FusedLocationProviderClient,
         @ApplicationContext context: Context
     ): LocationTracker =
-        DefaultLocationTracker(locationClient = locationClient, context = context)
+        DefaultLocationTracker(
+            locationClient = locationClient,
+            context = context
+        )
 }

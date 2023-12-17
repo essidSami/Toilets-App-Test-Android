@@ -2,38 +2,36 @@ package app.toilets.presentation.home
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import app.toilets.domain.model.Toilet
 import app.toilets.presentation.R
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    onClickItem: (Toilet) -> Unit,
 ) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
         val state = viewModel.state
-        val displayMode = remember { mutableStateOf(0) }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             SegmentedControl(
+                defaultSelectedItemIndex = viewModel.displayMode,
                 items = listOf(
                     Pair(
                         stringResource(id = R.string.txt_list),
@@ -45,17 +43,17 @@ fun HomeScreen(
                     )
                 )
             ) {
-                displayMode.value = it
+                viewModel.displayMode = it
             }
             state.toiletList.let { toilets ->
-                when (displayMode.value) {
+                when (viewModel.displayMode) {
                     0 -> {
-                        LazyColumn(modifier = Modifier.fillMaxHeight()) {
+                        LazyColumn(modifier = Modifier.fillMaxSize()) {
                             itemsIndexed(toilets) { index, item ->
                                 if (index >= toilets.size - 1 && !state.endReached && !state.isLoading) {
-                                    viewModel.loadToilets(toilets.size + 1)
+                                    viewModel.loadToilets(start = toilets.size + 1)
                                 }
-                                ToiletCard(item)
+                                ToiletCard(item, onClickItem = onClickItem)
                             }
                         }
                     }
@@ -66,7 +64,12 @@ fun HomeScreen(
                                 modifier = Modifier.weight(1F),
                                 location = latLng,
                                 toiletList = toilets
-                            )
+                            ) {
+                                viewModel.loadToilets(
+                                    start = toilets.size + 1,
+                                    geoFilter = it
+                                )
+                            }
                         }
                     }
                 }

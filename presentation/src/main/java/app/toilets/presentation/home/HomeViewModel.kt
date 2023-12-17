@@ -22,7 +22,9 @@ class HomeViewModel @Inject constructor(
     var state by mutableStateOf(ToiletsState())
         private set
 
-    fun loadToilets(start: Int) {
+    var displayMode by mutableStateOf(0)
+
+    fun loadToilets(start: Int, geoFilter: String? = null) {
         viewModelScope.launch {
             state = state.copy(
                 isLoading = true,
@@ -30,10 +32,9 @@ class HomeViewModel @Inject constructor(
             )
             getCurrentLocationUseCase()?.let { location ->
                 when (val result = getToiletsUseCase(
-                    dataSet = "sanisettesparis2011",
                     start = start,
-                    rows = 10,
-                    currentLocation = location
+                    currentLocation = location,
+                    geoFilter = geoFilter
                 )) {
                     is Resource.Success -> {
                         state = state.copy(

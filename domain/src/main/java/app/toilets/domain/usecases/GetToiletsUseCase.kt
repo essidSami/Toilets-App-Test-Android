@@ -9,15 +9,13 @@ import javax.inject.Inject
 class GetToiletsUseCase @Inject constructor(private val repository: ToiletRepository) {
 
     suspend operator fun invoke(
-        dataSet: String,
         start: Int,
-        rows: Int,
-        currentLocation: Location
+        currentLocation: Location,
+        geoFilter: String?
     ): Resource<List<Toilet>> =
         repository.getToilets(
-            dataSet = dataSet,
             start = start,
-            rows = rows,
-            currentLocation = currentLocation
+            currentLocation = currentLocation,
+            geoFilter = geoFilter
         )
 }
