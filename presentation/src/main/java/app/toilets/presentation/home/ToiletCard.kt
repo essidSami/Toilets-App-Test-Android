@@ -169,5 +169,7 @@ fun ToiletCard(toilet: Toilet, onClickItem: (Toilet) -> Unit) {
 fun PreviewToiletCardItem() {
     ToiletCard(
         toilet = toiletList[0],
-        onClickItem = {})
+        onClickItem = {
+
+        })
 }

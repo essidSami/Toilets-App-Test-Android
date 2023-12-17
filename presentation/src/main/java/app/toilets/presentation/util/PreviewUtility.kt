@@ -17,7 +17,7 @@ val toiletList = listOf(
         gestionnaire = "Toilette publique de la Ville de Paris",
         source = "http://opendata.paris.fr",
         complementAdresse = "numero_de_voie nom_de_voie",
-        distance = 0.0F
+        distance = 1.8F
     ),
     Toilet(
         type = "SANISETTE",
@@ -33,6 +33,6 @@ val toiletList = listOf(
         gestionnaire = "Toilette publique de la Ville de Paris",
         source = "http://opendata.paris.fr",
         complementAdresse = "numero_de_voie nom_de_voie",
-        distance = 0.0F
+        distance = 1.8F
     )
 )
