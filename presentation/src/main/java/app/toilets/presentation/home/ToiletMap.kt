@@ -7,7 +7,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import app.toilets.domain.model.Toilet
+import app.toilets.presentation.R
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -24,7 +26,8 @@ fun ToiletMap(
     modifier: Modifier,
     currentLocation: LatLng,
     toiletList: List<Toilet>,
-    onCameraChangePosition: (String) -> Unit
+    onCameraChangePosition: (String) -> Unit,
+    onClickItem: (Toilet) -> Unit
 ) {
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(currentLocation, 15f)
@@ -39,8 +42,9 @@ fun ToiletMap(
             toilet.geoShape?.let { latLang ->
                 Marker(
                     state = rememberMarkerState(position = LatLng(latLang.second, latLang.first)),
-                    title = toilet.address,
-                    icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)
+                    icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED),
+                    title = "${toilet.address} | ${stringResource(id = R.string.txt_km).format(toilet.distance)}",
+                    onInfoWindowClick = { onClickItem(toilet) }
                 )
             }
         }

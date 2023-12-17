@@ -88,10 +88,10 @@ fun HomeViewContent(
                             ToiletMap(
                                 modifier = Modifier.weight(1F),
                                 currentLocation = latLng,
-                                toiletList = toilets
-                            ) {
-                                onLoadMore(toilets.size + 1, it)
-                            }
+                                toiletList = toilets,
+                                onCameraChangePosition = { onLoadMore(toilets.size + 1, it) },
+                                onClickItem = onClickItem
+                            )
                         }
                     }
                 }
