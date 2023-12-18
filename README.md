@@ -17,9 +17,11 @@ Pour ce test technique, j'ai mis en place:
 - Les détails des toilettes dans un autre écran.
 
 L'application se compose de trois écrans:
+
 ![](img/img_screenshot.png)
 
 Notre application se compose de trois modules:
+
 ![](img/img_modules.png)
 
 * __Domain: Business Logic Layer__: Est le responsable de la logique métier. Il contient les usecase
