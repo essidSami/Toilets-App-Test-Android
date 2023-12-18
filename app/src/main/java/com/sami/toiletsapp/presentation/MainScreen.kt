@@ -8,12 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
-import app.toilets.presentation.home.HomeViewModel
 import com.sami.toiletsapp.presentation.navigation.AppNavigation
 import com.sami.toiletsapp.presentation.navigation.Navigate
 
 @Composable
-internal fun MainScreen(viewModel: HomeViewModel, onLauncherFinished: () -> Unit) {
+internal fun MainScreen(onLauncherFinished: () -> Unit) {
     val navController = rememberNavController()
     navController.navigatorProvider
 
@@ -26,8 +25,7 @@ internal fun MainScreen(viewModel: HomeViewModel, onLauncherFinished: () -> Unit
         AppNavigation(
             modifier = Modifier.padding(paddingValues),
             navController = navController,
-            startDestination = screen,
-            viewModel = viewModel
+            startDestination = screen
         )
     }
     onLauncherFinished()

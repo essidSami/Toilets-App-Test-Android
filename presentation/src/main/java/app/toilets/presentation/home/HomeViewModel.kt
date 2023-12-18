@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import app.toilets.domain.usecases.GetCurrentLocationUseCase
 import app.toilets.domain.usecases.GetToiletsUseCase
-import app.toilets.domain.util.Resource
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,6 +23,10 @@ class HomeViewModel @Inject constructor(
 
     var displayMode by mutableStateOf(0)
 
+    init {
+        loadToilets(start = 0)
+    }
+
     fun loadToilets(start: Int, geoFilter: String? = null) {
         viewModelScope.launch {
             state = state.copy(
@@ -31,29 +34,25 @@ class HomeViewModel @Inject constructor(
                 error = null
             )
             getCurrentLocationUseCase()?.let { location ->
-                when (val result = getToiletsUseCase(
+                getToiletsUseCase(
                     start = start,
                     currentLocation = location,
                     geoFilter = geoFilter
-                )) {
-                    is Resource.Success -> {
-                        state = state.copy(
-                            toiletList = state.toiletList.plus(result.data ?: listOf()),
-                            isLoading = false,
-                            error = null,
-                            endReached = result.data?.isEmpty() == true,
-                            currentLocation = LatLng(location.latitude, location.longitude)
-                        )
-                    }
-
-                    else -> {
-                        state = state.copy(
-                            isLoading = false,
-                            error = result.message
-                        )
-                    }
+                ).onSuccess { toilets ->
+                    state = state.copy(
+                        toiletList = state.toiletList.plus(toilets),
+                        isLoading = false,
+                        error = null,
+                        endReached = toilets.isEmpty(),
+                        currentLocation = LatLng(location.latitude, location.longitude)
+                    )
+                }.onFailure {
+                    state = state.copy(
+                        toiletList = emptyList(),
+                        isLoading = false,
+                        error = "An unknown error occurred."
+                    )
                 }
-
             } ?: kotlin.run {
                 state = state.copy(
                     isLoading = false,

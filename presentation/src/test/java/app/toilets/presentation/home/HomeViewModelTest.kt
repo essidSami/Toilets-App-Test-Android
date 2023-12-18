@@ -3,7 +3,6 @@ package app.toilets.presentation.home
 import android.location.Location
 import app.toilets.domain.usecases.GetCurrentLocationUseCase
 import app.toilets.domain.usecases.GetToiletsUseCase
-import app.toilets.domain.util.Resource
 import app.toilets.presentation.MainCoroutineRule
 import app.toilets.presentation.toilets
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -53,7 +52,7 @@ class HomeViewModelTest {
                 currentLocation = currentLocation,
                 geoFilter = null
             )
-        ).willReturn(Resource.Success(toilets))
+        ).willReturn(Result.success(toilets))
 
         //When
         viewModel.loadToilets(start = 0)
@@ -74,7 +73,7 @@ class HomeViewModelTest {
                 currentLocation = currentLocation,
                 geoFilter = null
             )
-        ).willReturn(Resource.Error("An unknown error occurred."))
+        ).willReturn(Result.failure(exception = Throwable()))
 
         //When
         viewModel.loadToilets(start = 0)
@@ -93,7 +92,10 @@ class HomeViewModelTest {
         viewModel.loadToilets(start = 0)
 
         //Then
-        assertEquals("Couldn't retrieve location. Make sure to grant permission and enable GPS.", viewModel.state.error)
+        assertEquals(
+            "Couldn't retrieve location. Make sure to grant permission and enable GPS.",
+            viewModel.state.error
+        )
         assertFalse(viewModel.state.isLoading)
     }
 }

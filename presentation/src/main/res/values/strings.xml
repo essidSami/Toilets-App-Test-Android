@@ -6,4 +6,6 @@
     <string name="txt_meter">%1$ m</string>
     <string name="txt_list">List</string>
     <string name="txt_map">Map</string>
+    <string name="txt_gps_not_active">Couldn\'t retrieve location. Make sure to grant permission and enable GPS.</string>
+    <string name="txt_btn_permission">Try again</string>
 </resources>

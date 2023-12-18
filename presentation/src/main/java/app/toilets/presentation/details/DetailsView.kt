@@ -34,6 +34,15 @@ import androidx.compose.ui.unit.dp
 import app.toilets.domain.model.Toilet
 import app.toilets.presentation.R
 import app.toilets.presentation.util.toiletList
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberMarkerState
 
 @Composable
 fun DetailsScreen(
@@ -41,6 +50,10 @@ fun DetailsScreen(
     onBackPressed: () -> Unit
 ) {
     toiletInfo.apply {
+        val cameraPositionState = rememberCameraPositionState {
+            position =
+                CameraPosition.fromLatLngZoom(LatLng(geoShape?.second!!, geoShape?.first!!), 15f)
+        }
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -168,6 +181,30 @@ fun DetailsScreen(
                         style = MaterialTheme.typography.titleSmall,
                         textAlign = TextAlign.Start,
                         modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp)
+                    )
+                }
+            }
+
+            GoogleMap(
+                cameraPositionState = cameraPositionState,
+                modifier = Modifier.padding(top = 16.dp),
+                properties = MapProperties(isMyLocationEnabled = true),
+                uiSettings = MapUiSettings(compassEnabled = true)
+            ) {
+                geoShape?.let { latLang ->
+                    Marker(
+                        state = rememberMarkerState(
+                            position = LatLng(
+                                latLang.second,
+                                latLang.first
+                            )
+                        ),
+                        icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED),
+                        title = "$address | ${
+                            stringResource(id = R.string.txt_km).format(
+                                distance
+                            )
+                        }"
                     )
                 }
             }

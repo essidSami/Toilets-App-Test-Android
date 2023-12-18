@@ -9,14 +9,14 @@ Mappy et Bonjour RATP. Réalisé par Sami Essid, 18 Décember 2023.
 
 *Documentation*: https://data.ratp.fr/explore/dataset/sanisettesparis2011/information/
 
-## <a name="solution"></a>Solution proposée
+### Toilet App
 
 Pour ce test technique, j'ai mis en place:
 - La liste des toilettes avec ses informations (L'addresse, les heures d'ouvertures, l'accessibilité pour les personnes à mobilité réduite et La distance depuis votre position actuelle)
 - La liste des toilettes dans une carte.
 - Les détails des toilettes dans un autre écran.
 
-L'application se compose de trois écrans:
+Notre application se compose de trois écrans:
 
 ![](img/img_screenshot.png)
 
@@ -37,9 +37,11 @@ Pour développer notre application, nous avons utilisé les bibliothèques suiva
 * __Coroutines__: Pour exécuter notre code de manière asynchrone. Nous avons utilisé des coroutines
   pour assurer la communication entre nos vues et nos viewModels.
 * __JUnit4__: Pour nos tests unitaires.
-* __Mock__: Pour le mock dans le tests unitaires.
+* __Mockito__: Pour le mock dans le tests unitaires.
 
 __Avec plus de temps disponible__:
 
 * Accès hors ligne.
+
+Toute remarque constructive lors de la review et tout conseil pour implémenter les améliorations, l'architecture,... seront les bienvenus :)
 

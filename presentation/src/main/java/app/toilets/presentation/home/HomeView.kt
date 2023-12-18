@@ -46,7 +46,7 @@ fun HomeViewContent(
     displayMode: Int,
     onClickItem: (Toilet) -> Unit,
     onChangeMode: (Int) -> Unit,
-    onLoadMore: (Int, String?) -> Unit,
+    onLoadMore: (Int, String?) -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize()

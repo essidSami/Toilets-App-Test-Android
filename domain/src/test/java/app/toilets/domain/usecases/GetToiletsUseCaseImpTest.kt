@@ -1,32 +1,36 @@
 package app.toilets.domain.usecases
 
 import android.location.Location
+import app.toilets.domain.TestDispatcher.getTestDispatcher
 import app.toilets.domain.repository.ToiletRepository
 import app.toilets.domain.toilets
-import app.toilets.domain.util.Resource
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
-import org.mockito.Mockito
+import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations.openMocks
 import org.mockito.kotlin.given
 
-class GetToiletsUseCaseTest {
+class GetToiletsUseCaseImpTest {
 
     @Mock
     private lateinit var repository: ToiletRepository
 
-    private lateinit var getToiletsUseCase: GetToiletsUseCase
+    private lateinit var getToiletsUseCaseImp: GetToiletsUseCaseImp
 
     @Mock
-    private val currentLocation = Mockito.mock<Location>()
+    private val currentLocation = mock<Location>()
 
     @Before
     fun setup() {
         openMocks(this)
-        getToiletsUseCase = GetToiletsUseCase(repository)
+        getToiletsUseCaseImp = GetToiletsUseCaseImp(
+            repository = repository,
+            ioDispatcher = getTestDispatcher()
+        )
         given(currentLocation.longitude).willReturn(2.26)
         given(currentLocation.altitude).willReturn(48.86)
     }
@@ -41,13 +45,13 @@ class GetToiletsUseCaseTest {
                 currentLocation = currentLocation,
                 geoFilter = null
             )
-        ).willReturn(Resource.Success(toilets))
+        ).willReturn(Result.success(toilets))
 
         // When
-        val actualResult = getToiletsUseCase(start = 0, currentLocation = currentLocation, null)
+        val actualResult = getToiletsUseCaseImp(start = 0, currentLocation = currentLocation, null)
 
         //Then
-        assertEquals(toilets, actualResult.data)
+        assertEquals(toilets, actualResult.getOrNull())
     }
 
     @Test
@@ -59,16 +63,17 @@ class GetToiletsUseCaseTest {
                 currentLocation = currentLocation,
                 geoFilter = null
             )
-        ).willReturn(Resource.Error("Error fetching toilets"))
+        ).willReturn(Result.failure(Throwable("Error fetching toilets")))
 
         // WHEN
-        val result = getToiletsUseCase(
+        val result = getToiletsUseCaseImp(
             start = 0,
             currentLocation = currentLocation,
             geoFilter = null
         )
 
         //Then
-        assert(result is Resource.Error)
+        assertTrue(result.isFailure)
+        assertEquals("Error fetching toilets", result.exceptionOrNull()?.message)
     }
 }

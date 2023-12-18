@@ -6,12 +6,15 @@ import app.toilets.data.toilets
 import app.toilets.data.wsResponse
 import app.toilets.domain.repository.ToiletRepository
 import kotlinx.coroutines.test.runTest
+import okhttp3.Response
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations.openMocks
+import org.mockito.exceptions.base.MockitoException
 import org.mockito.kotlin.given
 
 class ToiletRepositoryTest {
@@ -52,6 +55,30 @@ class ToiletRepositoryTest {
         )
 
         //Then
-        assertEquals(toilets, actualResult.data)
+        assertEquals(toilets, actualResult.getOrNull())
+    }
+
+    @Test
+    fun `test getToilets fails`() = runTest {
+        //Given
+        given(
+            apiService.getToilets(
+                dataSet = "sanisettesparis2011",
+                start = 0,
+                rows = 20,
+                geoFilter = null
+            )
+        ).willThrow(MockitoException("Can't retrieve toilets"))
+
+        // When
+        val actualResult = toiletRepository.getToilets(
+            start = 0,
+            currentLocation = currentLocation,
+            geoFilter = null
+        )
+
+        //Then
+        assertTrue(actualResult.isFailure)
+        assertEquals("Can't retrieve toilets",actualResult.exceptionOrNull()?.message)
     }
 }

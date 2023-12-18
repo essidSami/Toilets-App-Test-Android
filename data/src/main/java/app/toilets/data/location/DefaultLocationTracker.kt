@@ -8,13 +8,14 @@ import android.location.LocationManager
 import androidx.core.content.ContextCompat
 import app.toilets.domain.location.LocationTracker
 import com.google.android.gms.location.FusedLocationProviderClient
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
 class DefaultLocationTracker @Inject constructor(
     private val locationClient: FusedLocationProviderClient,
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) : LocationTracker {
     override suspend fun getCurrentLocation(): Location? {
         val hasAccessFineLocationPermission = ContextCompat.checkSelfPermission(
