@@ -47,11 +47,21 @@ class HomeViewModel @Inject constructor(
                         currentLocation = LatLng(location.latitude, location.longitude)
                     )
                 }.onFailure {
-                    state = state.copy(
-                        toiletList = emptyList(),
-                        isLoading = false,
-                        error = "An unknown error occurred."
-                    )
+                    state = if (state.toiletList.isEmpty()){
+                        state.copy(
+                            toiletList = emptyList(),
+                            isLoading = false,
+                            error = "An unknown error occurred."
+                        )
+                    }else{
+                        state.copy(
+                            toiletList = state.toiletList,
+                            isLoading = false,
+                            error = null,
+                            endReached = true,
+                            currentLocation = LatLng(location.latitude, location.longitude)
+                        )
+                    }
                 }
             } ?: kotlin.run {
                 state = state.copy(

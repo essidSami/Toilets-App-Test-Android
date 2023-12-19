@@ -26,6 +26,6 @@ fun RecordDto.toToilet(currentLocation: Location) = Toilet(
         val targetLocation = Location("")
         targetLocation.latitude = it[1]
         targetLocation.longitude = it[0]
-        currentLocation.distanceTo(targetLocation)/1000
+        currentLocation.distanceTo(targetLocation)
     }?:0F
 )

@@ -38,14 +38,12 @@ import app.toilets.presentation.util.toiletList
 @Composable
 fun ToiletCard(toilet: Toilet, onClickItem: (Toilet) -> Unit) {
     toilet.apply {
-        Card(
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+        Card(colors = CardDefaults.cardColors(containerColor = Color.White),
             shape = RoundedCornerShape(10.dp),
             elevation = CardDefaults.cardElevation(4.dp),
             modifier = Modifier
                 .padding(16.dp)
-                .clickable { onClickItem(this) }
-        ) {
+                .clickable { onClickItem(this) }) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -138,18 +136,15 @@ fun ToiletCard(toilet: Toilet, onClickItem: (Toilet) -> Unit) {
                     Box(
                         modifier = Modifier
                             .background(
-                                color = Color.White,
-                                shape = RoundedCornerShape(15.dp)
+                                color = Color.White, shape = RoundedCornerShape(15.dp)
                             )
                             .border(
-                                width = 1.dp,
-                                color = Color.Black,
-                                shape = RoundedCornerShape(15.dp)
+                                width = 1.dp, color = Color.Black, shape = RoundedCornerShape(15.dp)
                             )
                     ) {
                         Text(
-                            text = if (distance >= 1) {
-                                stringResource(id = R.string.txt_km).format(distance)
+                            text = if (distance >= 1000) {
+                                stringResource(id = R.string.txt_km).format(distance * 0.001)
                             } else {
                                 stringResource(id = R.string.txt_meter).format(distance)
                             },
@@ -167,9 +162,7 @@ fun ToiletCard(toilet: Toilet, onClickItem: (Toilet) -> Unit) {
 @Preview
 @Composable
 fun PreviewToiletCardItem() {
-    ToiletCard(
-        toilet = toiletList[0],
-        onClickItem = {
+    ToiletCard(toilet = toiletList[0], onClickItem = {
 
-        })
+    })
 }

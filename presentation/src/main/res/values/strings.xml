@@ -3,7 +3,7 @@
     <string name="txt_not_accessible">Not accessible</string>
     <string name="txt_address">Adresse :</string>
     <string name="txt_km">%1$.1f KM</string>
-    <string name="txt_meter">%1$ m</string>
+    <string name="txt_meter">%1$.0f m</string>
     <string name="txt_list">List</string>
     <string name="txt_map">Map</string>
     <string name="txt_gps_not_active">Couldn\'t retrieve location. Make sure to grant permission and enable GPS.</string>
