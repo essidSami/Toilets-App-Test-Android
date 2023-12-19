@@ -25,7 +25,7 @@ Notre application se compose de trois modules:
 ![](img/img_modules.png)
 
 * __Domain: Business Logic Layer__: Est le responsable de la logique métier. Il contient les usecase
-* __Data: Data Access Layer__: Il les models, les mapper, la définition des API réseau et
+* __Data: Data Access Layer__: Il contient les models, les mapper, la définition des API réseau et
   implémente les interfaces exposées par le domaine.
 * __App: Presentation Layer__: Est responsable de la présentation des données et de l'interaction
   avec Android Framework.
