@@ -201,9 +201,11 @@ fun DetailsScreen(
                         ),
                         icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED),
                         title = "$address | ${
-                            stringResource(id = R.string.txt_km).format(
-                                distance
-                            )
+                            if (distance >= 1000) {
+                                stringResource(id = R.string.txt_km).format(distance * 0.001)
+                            } else {
+                                stringResource(id = R.string.txt_meter).format(distance)
+                            }
                         }"
                     )
                 }

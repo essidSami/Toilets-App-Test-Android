@@ -43,7 +43,13 @@ fun ToiletMap(
                 Marker(
                     state = rememberMarkerState(position = LatLng(latLang.second, latLang.first)),
                     icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED),
-                    title = "${toilet.address} | ${stringResource(id = R.string.txt_km).format(toilet.distance)}",
+                    title = "${toilet.address} | ${
+                        if (toilet.distance >= 1000) {
+                            stringResource(id = R.string.txt_km).format(toilet.distance * 0.001)
+                        } else {
+                            stringResource(id = R.string.txt_meter).format(toilet.distance)
+                        }
+                    }",
                     onInfoWindowClick = { onClickItem(toilet) }
                 )
             }
