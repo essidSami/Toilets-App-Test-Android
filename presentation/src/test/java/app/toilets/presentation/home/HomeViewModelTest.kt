@@ -6,13 +6,12 @@ import app.toilets.domain.usecases.GetToiletsUseCase
 import app.toilets.presentation.MainCoroutineRule
 import app.toilets.presentation.toilets
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations.openMocks
 import org.mockito.kotlin.given
@@ -23,13 +22,10 @@ class HomeViewModelTest {
     @get:Rule
     val mainCoroutineRule = MainCoroutineRule()
 
-    @Mock
     private val getToiletsUseCase = mock<GetToiletsUseCase>()
 
-    @Mock
     private val getCurrentLocationUseCase = mock<GetCurrentLocationUseCase>()
 
-    @Mock
     private val currentLocation = mock<Location>()
 
     private lateinit var viewModel: HomeViewModel
@@ -41,7 +37,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `loadToilets should update state correctly on success`() = runBlocking {
+    fun `loadToilets should update state correctly on success`() = runTest {
         //Given
         given(currentLocation.longitude).willReturn(2.26)
         given(currentLocation.altitude).willReturn(48.86)
@@ -62,7 +58,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `loadToilets should update state on error`() = runBlocking {
+    fun `loadToilets should update state on error`() = runTest {
         //Given
         given(currentLocation.longitude).willReturn(2.26)
         given(currentLocation.altitude).willReturn(48.86)
@@ -84,7 +80,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `loadToilets when GPS not activated`() = runBlocking {
+    fun `loadToilets when GPS not activated`() = runTest {
         //Given
         given(getCurrentLocationUseCase()).willReturn(null)
 

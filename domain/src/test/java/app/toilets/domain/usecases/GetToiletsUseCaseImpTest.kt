@@ -21,7 +21,6 @@ class GetToiletsUseCaseImpTest {
 
     private lateinit var getToiletsUseCaseImp: GetToiletsUseCaseImp
 
-    @Mock
     private val currentLocation = mock<Location>()
 
     @Before

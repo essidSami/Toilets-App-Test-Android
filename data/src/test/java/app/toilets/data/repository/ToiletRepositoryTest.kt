@@ -6,12 +6,10 @@ import app.toilets.data.toilets
 import app.toilets.data.wsResponse
 import app.toilets.domain.repository.ToiletRepository
 import kotlinx.coroutines.test.runTest
-import okhttp3.Response
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.MockitoAnnotations.openMocks
 import org.mockito.exceptions.base.MockitoException
@@ -19,12 +17,10 @@ import org.mockito.kotlin.given
 
 class ToiletRepositoryTest {
 
-    @Mock
     private val apiService = mock<ToiletsApi>()
 
     private lateinit var toiletRepository: ToiletRepository
 
-    @Mock
     private val currentLocation = mock<Location>()
 
     @Before
